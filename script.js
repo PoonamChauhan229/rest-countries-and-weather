@@ -1,6 +1,7 @@
 const rowEl = document.querySelector('.row')
 const searchEl = document.getElementById('search')
 
+
 let result = [];
 
 searchEl.addEventListener('keyup', (e) => {
@@ -24,19 +25,19 @@ countries();
 
 
 function showCountry(data1) {
-
-  const countryDetails = data1.map((data1) => {
+  const countryDetails = data1.map((data1,index) => {
+  //  console.log(index)
     return `
       <div class="card text-center crd shadow  mt-3" style="width: 18rem;">
-      <h5 class="card-title " id="country">${data1.name.common}</h5>
-      <img src="${data1.flags.png}" class="card-img-top hgt img-thumbnail " >
-      <div class="card-body">
-        <p class="card-text">Capital: ${data1.capital}</p>
-        <p class="card-text">Region: ${data1.region}</p>
-        <p class="card-text">Country code: ${data1.cca3}</p>
-        <button type="button" id="bttn" class="btn btn-primary" value ="${data1.capital}" onclick="getweather('${data1.capital}')" >click here for weather</button>
-
-      </div>
+        <h5 class="card-title " id="country">${data1.name.common}</h5>
+        <img src="${data1.flags.png}" class="card-img-top hgt img-thumbnail " >
+        <div class="card-body">
+          <p class="card-text">Capital: ${data1.capital}</p>
+          <p class="card-text">Region: ${data1.region}</p>
+          <p class="card-text">Country code: ${data1.cca3}</p>
+          <button type="button"  class="btn btn-primary" value ="${data1.capital}" onclick="getweather('${data1.capital}',${index})" >click here for weather</button>
+          <button class="btn btn-success" style="display:none" id=btn${index}></button>
+          </div>
     </div>
   </div>`
 
@@ -44,9 +45,12 @@ function showCountry(data1) {
   rowEl.innerHTML = countryDetails;
 }
 const card = document.getElementsByClassName('card-body')
+console.log(card)
 
-function getweather(country1) {
-
+function getweather(country1,index) {
+  console.log(index)
+  let btn=document.getElementById('btn'+index)
+  console.log(btn)
   const countryName = country1
   var tempEl = document.getElementById("temp")
   var windEl = document.getElementById("wind")
@@ -56,11 +60,12 @@ function getweather(country1) {
     .then((data1) => {
       console.log(data1);
 
-      let divi = document.getElementsByClassName('report')
-      divi.innerHTML = ` <p id="temp">'${data1.main.temp}'</p>
+      
+      btn.style.display="block"
+      btn.innerHTML = ` <p id="temp">'${data1.main.temp}'</p>
       <p id="wind">${data1.wind.speed}</p>`
       
-    card.append(divi)
+ 
       
     });
 
